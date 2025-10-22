@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= title %>
+  </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            chess: {
+              light: '#f0d9b5',
+              dark: '#b58863',
+              accent: '#2f855a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .chessBoard {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      grid-template-rows: repeat(8, minmax(0, 1fr));
+      width: 600px;
+      height: 600px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .square {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .square.light {
+      background-color: #f0d9b5;
+    }
+
+    .square.dark {
+      background-color: #b58863;
+    }
+
+    .square:hover {
+      background-color: #2f855a;
+    }
+
+    .piece {
+      font-size: 2.5rem;
+      cursor: grab;
+      transition: transform 0.2s;
+    }
+
+    .piece:hover {
+      transform: scale(1.1);
+    }
+
+    .piece.white {
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .piece.black {
+      color: #000;
+      text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 to-green-900 min-h-screen">
+  <!-- Header -->
+  <header class="bg-gray-800/50 backdrop-blur-sm border-b border-green-500/20 text-white p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">
+        Chess Masters
+      </h1>
+      <div class="flex items-center gap-6">
+        <div class="text-green-400">Welcome, <%= user.username %>!</div>
+        <div class="px-4 py-1 bg-green-900/50 rounded-full border border-green-500/30">
+          Wins: <%= user.wins || 0 %>
+        </div>
+        <button onclick="logout()" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg border border-red-500/30 
+                    transition-colors duration-200">
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto py-12 flex justify-center items-center">
+    <div class="p-8 bg-gray-800/30 backdrop-blur-sm rounded-xl border border-green-500/20 shadow-2xl">
+      <div class="chessBoard"></div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="/javascripts/chessgame.js"></script>
+</body>
+
+</html>
